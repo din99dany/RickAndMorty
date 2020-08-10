@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LocationDetailActivity">
+
+    <Button
+        android:id="@+id/id_button_home_locations"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#f2f2f2"
+        android:text="Home"
+        app:layout_constraintEnd_toStartOf="@+id/id_locations_title"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/id_locations_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#2f2f2f"
+        android:gravity="center"
+        android:text="LocationName"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/id_button_home_locations"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/id_location_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Name"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:background="#ff2231"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHeight_percent="0.15"
+        app:layout_constraintTop_toBottomOf="@+id/id_locations_title"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <TextView
+        android:id="@+id/id_location_type"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.1"
+        android:text="TextView"
+        android:layout_margin="8dp"
+
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        android:padding="8dp"
+
+        android:background="#333444"
+        app:layout_constraintEnd_toStartOf="@+id/id_location_dims"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_location_name" />
+
+    <TextView
+        android:id="@+id/id_location_dims"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="TextView"
+        android:padding="8dp"
+        android:layout_margin="8dp"
+
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:layout_constraintHeight_percent="0.1"
+        android:background="#888992"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/id_location_type"
+        app:layout_constraintTop_toBottomOf="@+id/id_location_name" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/id_location_detail_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_location_type" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
