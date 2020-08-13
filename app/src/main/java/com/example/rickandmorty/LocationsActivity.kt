@@ -6,21 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.adapters.RvLocationsAdapter
-import com.example.rickandmorty.retrofitCharacter.PaginationLoaderLocations
+import com.example.rickandmorty.paginators.PaginationLoaderLocations
+import com.example.rickandmorty.paginators.PaginatorFactory
+import com.example.rickandmorty.utils.PaginatorListener
 
 class LocationsActivity : AppCompatActivity() {
     private lateinit var homeButtom: Button
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: RvLocationsAdapter
     private lateinit var paginator: PaginationLoaderLocations
-    private val VISIBLE_THRESHOLD = 1
 
 
     @SuppressLint("WrongConstant")
@@ -28,8 +27,12 @@ class LocationsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_locations)
 
+
+
         homeButtom = findViewById<Button>(R.id.id_button_home_locations)
-        paginator = ViewModelProviders.of(this).get(PaginationLoaderLocations::class.java)
+        paginator = ViewModelProviders.of(this, PaginatorFactory(application,this))
+            .get(PaginationLoaderLocations::class.java)
+
 
         setButtonsListeners()
         setupRecycleView()
@@ -39,26 +42,14 @@ class LocationsActivity : AppCompatActivity() {
 
     private fun setupListenerMore() {
 
-            recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled( recyclerView: RecyclerView, dx: Int, dy: Int ) {
-                    super.onScrolled(recyclerView, dx, dy)
+        recyclerView.addOnScrollListener(PaginatorListener(paginator))
 
-                    val totalItemCount = recyclerView.layoutManager?.itemCount ?: 0
-                    val lastVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+        paginator.mData.observe( this, Observer {
+            adapter.mData += it
+            adapter.notifyDataSetChanged()
+        })
 
-                    if ( totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD ) {
-                        paginator.updatePaginator()
-                    }
-
-                }
-            })
-
-            paginator.mData.observe( this, Observer {
-                adapter.mData += it
-                adapter.notifyDataSetChanged()
-            })
-
-            paginator.updatePaginator()
+        paginator.updatePaginator()
 
     }
 
@@ -67,7 +58,8 @@ class LocationsActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this,2)
 
         adapter = RvLocationsAdapter(this   )
-        recyclerView.adapter = adapter    }
+        recyclerView.adapter = adapter
+    }
 
     fun setButtonsListeners()  {
         homeButtom.setOnClickListener(View.OnClickListener {

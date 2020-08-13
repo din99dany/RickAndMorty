@@ -11,10 +11,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.CharacterDetailActivity
 import com.example.rickandmorty.R
-import com.example.rickandmorty.retrofitCharacter.CharacterModel
+import com.example.rickandmorty.retrofitMihaiModels.MihaiCharacterModel
+import com.example.rickandmorty.utils.DecodingUtils
 import com.squareup.picasso.Picasso
 
-class RvCharacterAdapter(context:Context, data:List<CharacterModel>): RecyclerView.Adapter<RvCharacterAdapter.ViewHolder>() {
+class RvCharacterAdapter(context:Context, data:List<MihaiCharacterModel>): RecyclerView.Adapter<RvCharacterAdapter.ViewHolder>() {
 
     private val mLayoutInflater : LayoutInflater = LayoutInflater.from(context)
     var mData= data
@@ -57,20 +58,12 @@ class RvCharacterAdapter(context:Context, data:List<CharacterModel>): RecyclerVi
         val mGender : ImageView = itemView.findViewById(R.id.imageView5) as ImageView
         val mCardView : CardView = itemView.findViewById(R.id.id_character_rv_card) as CardView
 
-        fun bind( character: CharacterModel )
+        fun bind( character: MihaiCharacterModel )
         {
             mNameTextView.text = character.name
-            when ( character.status )
-            {
-                "Alive" -> mAlive.setImageResource(R.drawable.ic_alive)
-                "Dead" -> mAlive.setImageResource( R.drawable.ic_deadicon )
-            }
 
-            when ( character.gender )
-            {
-                "Male" -> mGender.setImageResource(R.drawable.male_icon)
-                "Female" -> mGender.setImageResource( R.drawable.female_icon )
-            }
+            mGender.setImageResource(DecodingUtils.decodeGenderToImage(character.gender))
+            mAlive.setImageResource(DecodingUtils.decodeStatusToImage(character.status))
 
             Picasso.get().
             load(character.thumbnail).

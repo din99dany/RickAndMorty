@@ -10,14 +10,12 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.EpisodeDetailActivity
 import com.example.rickandmorty.R
-import com.example.rickandmorty.retrofitCharacter.CharacterModel
-import com.example.rickandmorty.retrofitCharacter.EpisodeModel
-import kotlin.math.min
+import com.example.rickandmorty.retrofitMihaiModels.MihaiEpisodeModel
 
 class RvEpisodeAdapter( context:Context ): RecyclerView.Adapter<RvEpisodeAdapter.ViewHolder>() {
 
     private var mInflater = LayoutInflater.from(context)
-    var mData : List<EpisodeModel> = listOf()
+    var mData : List<MihaiEpisodeModel> = listOf()
         set( toChange ) {
             field = toChange
             notifyDataSetChanged()
@@ -52,11 +50,11 @@ class RvEpisodeAdapter( context:Context ): RecyclerView.Adapter<RvEpisodeAdapter
         private val mCard = itemView.findViewById<CardView>(R.id.id_episodes_rv_card)
         private var mId = -1
 
-        fun bind( valoare:EpisodeModel ) {
-            mName.text = valoare.mNmae
-            mDate.text = valoare.mData
-            mSeason.text = valoare.mSeason
-            mId = valoare.mId
+        fun bind( valoare:MihaiEpisodeModel ) {
+            mName.text = valoare.name
+            mDate.text = valoare.date
+            mSeason.text = valoare.episode
+            mId = valoare.id
         }
 
         fun onClick( context: Context ) {

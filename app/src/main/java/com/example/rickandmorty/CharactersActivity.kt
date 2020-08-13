@@ -9,17 +9,16 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.adapters.RvCharacterAdapter
-import com.example.rickandmorty.retrofitCharacter.PaginationLoaderCharacters
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.example.rickandmorty.paginators.PaginationLoaderCharacters
+import com.example.rickandmorty.paginators.PaginatorFactory
+import com.example.rickandmorty.utils.PaginatorListener
 
 class CharactersActivity : AppCompatActivity() {
 
     private lateinit var homeButtom: Button
-    private lateinit var disposables: CompositeDisposable
     private lateinit var recycleView : RecyclerView
     private lateinit var adapter: RvCharacterAdapter
     private lateinit var paginator: PaginationLoaderCharacters
-    val VISIBLE_THRESHOLD = 1
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,8 +26,8 @@ class CharactersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_characters)
 
         homeButtom = findViewById(R.id.id_button_home_locations)
-        disposables = CompositeDisposable()
-        paginator = ViewModelProviders.of(this).get(PaginationLoaderCharacters::class.java)
+        paginator = ViewModelProviders.of(this,PaginatorFactory(application,this))
+            .get(PaginationLoaderCharacters::class.java)
 
 
         setButtonsListeners()
@@ -40,19 +39,7 @@ class CharactersActivity : AppCompatActivity() {
     private fun setUpLoadMoareListener() {
 
 
-        recycleView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled( recyclerView: RecyclerView, dx: Int, dy: Int ) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val totalItemCount = recyclerView.layoutManager?.itemCount ?: 0
-                val lastVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-
-                if ( totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD ) {
-                    paginator.updatePaginator()
-                }
-
-            }
-        })
+        recycleView.addOnScrollListener(PaginatorListener(paginator))
 
         paginator.mData.observe( this, Observer {
             adapter.mData += it
@@ -77,8 +64,4 @@ class CharactersActivity : AppCompatActivity() {
         recycleView.adapter = adapter
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposables.clear()
-    }
 }

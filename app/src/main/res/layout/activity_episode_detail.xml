@@ -10,10 +10,10 @@
         android:id="@+id/id_button_home_locations"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.1"
-        android:text="Home"
         android:background="#f2f2f2"
+        android:text="Home"
         app:layout_constraintEnd_toStartOf="@+id/id_locations_title"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,13 +23,13 @@
         android:id="@+id/id_locations_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#2f2f2f"
+        android:gravity="center"
+        android:text="Episode Details"
         android:textColor="#ffffff"
         android:textSize="20sp"
-        android:gravity="center"
-        android:background="#2f2f2f"
-        app:layout_constraintHeight_percent="0.1"
-        android:text="Episode Details"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.1"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/id_button_home_locations"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="2"
-                android:text="placeholder"
+                android:text="Name"
                 android:textSize="18sp" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="placeholder"
+                android:text="date"
                 android:textSize="18sp" />
 
             <TextView
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1"
-                android:text="placeholder"
+                android:text="season"
                 android:textSize="18sp" />
 
 
@@ -83,13 +83,36 @@
         android:id="@+id/id_episode_detail_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/id_episode_synopsys_scroll"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.22"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <ScrollView
+        android:id="@+id/id_episode_synopsys_scroll"
+        android:layout_margin="6dp"
+        android:padding="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/id_episode_detail_rv" >
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/id_episode_synopsys"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:text="TextView" />
+
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

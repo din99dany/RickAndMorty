@@ -10,32 +10,31 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.LocationDetailActivity
 import com.example.rickandmorty.R
-import com.example.rickandmorty.retrofitCharacter.LocationModel
-import kotlinx.android.synthetic.main.recycle_view_locations_layout.view.*
+import com.example.rickandmorty.retrofitMihaiModels.MihaiLocationModel
 
 class RvLocationsAdapter( context: Context ) : RecyclerView.Adapter<RvLocationsAdapter.ViewHolder>() {
 
     private val mInflater = LayoutInflater.from(context)
-    var mData: List<LocationModel> = listOf()
+    var mData: List<MihaiLocationModel> = listOf()
         set( data ) {
             field = data
             notifyDataSetChanged()
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvLocationsAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = mInflater.inflate(
             R.layout.recycle_view_locations_layout,
             parent,
             false
         )
-        return RvLocationsAdapter.ViewHolder(view)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return mData.size
     }
 
-    override fun onBindViewHolder(holder: RvLocationsAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind( mData[position] )
         holder.onClick( mInflater.context )
     }
@@ -48,11 +47,11 @@ class RvLocationsAdapter( context: Context ) : RecyclerView.Adapter<RvLocationsA
         private val mCard = itemView.findViewById<CardView>(R.id.id_locations_rv_card)
         private var mId: Int = -1
 
-        fun bind( loc:LocationModel ) {
-            mName.text = loc.mName
-            mType.text = loc.mType
-            mDims.text = loc.mDims
-            mId = loc.mId
+        fun bind( loc:MihaiLocationModel ) {
+            mName.text = loc.name
+            mType.text = loc.type
+            mDims.text = loc.dimension
+            mId = loc.id
         }
 
         fun onClick( context: Context ) {

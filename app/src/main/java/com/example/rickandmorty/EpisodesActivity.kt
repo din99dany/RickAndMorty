@@ -10,21 +10,24 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmorty.adapters.RvEpisodeAdapter
-import com.example.rickandmorty.retrofitCharacter.PaginationLoaderEpisodes
+import com.example.rickandmorty.paginators.PaginationLoaderEpisodes
+import com.example.rickandmorty.paginators.PaginatorFactory
+import com.example.rickandmorty.utils.PaginatorListener
 
 class EpisodesActivity : AppCompatActivity() {
     private lateinit var homeButtom: Button
     private lateinit var recycleView: RecyclerView
     private lateinit var adapter: RvEpisodeAdapter
     private lateinit var paginator: PaginationLoaderEpisodes
-    private val VISIBLE_THRESHOLD = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_episodes)
 
         homeButtom = findViewById<Button>(R.id.id_button_home_locations)
-        paginator = ViewModelProviders.of(this).get( PaginationLoaderEpisodes::class.java )
+        paginator = ViewModelProviders.of(this, PaginatorFactory(application,this))
+            .get( PaginationLoaderEpisodes::class.java )
+
 
         setButtonsListeners()
         setupRecycleView()
@@ -49,20 +52,7 @@ class EpisodesActivity : AppCompatActivity() {
 
     private fun setUpLoadMoareListener() {
 
-
-        recycleView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled( recyclerView: RecyclerView, dx: Int, dy: Int ) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                val totalItemCount = recyclerView.layoutManager?.itemCount ?: 0
-                val lastVisibleItem = (recyclerView.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-
-                if ( totalItemCount <= lastVisibleItem + VISIBLE_THRESHOLD ) {
-                    paginator.updatePaginator()
-                }
-
-            }
-        })
+        recycleView.addOnScrollListener(PaginatorListener(paginator))
 
         paginator.mData.observe( this, Observer {
             adapter.mData += it
